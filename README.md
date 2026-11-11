@@ -1,34 +1,43 @@
-# EMS Frontend (JavaScript)
+# Employee Management System
 
-React + Vite frontend for the NestJS EMS backend. This project intentionally uses JavaScript and JSX only.
+A web app for a small Employee Management System: employee sign-up and profile, clock in/out, payslips, and an admin side for approvals, payroll structures and payroll runs.
 
-## Setup
+Live Link: [https://ems-sh.netlify.app](https://ems-sh.netlify.app)
+
+Backend Repository: [ems-backend](https://github.com/Shahriar-Hossain-Alvi/ems-backend).
+
+## Features
+
+- **Everyone:** Log In and Sign Up
+- **Employee:** Dashboard (clock in/out), My Attendance, Payslips, Payslip Detail (printable), My Profile (edit profile, change password)
+- **Admin:** Dashboard, Employees (search, approve or reject, assign structure), Attendance Records (with correction), Payroll Structures (create heads, add heads to structures), Run Payroll (preview, generate drafts, publish), Work Policy and Settings (attendance rules, departments)
+
+`DEMO_ADMIN` can open the admin screens but all write actions are disabled.
+
+## Tech stack
+
+- React.JS,
+- React Router,
+- Axios,
+- TanStack Query,
+- lucide-react,
+- CSS
+- HTML
+
+## Getting started
+
+Requirements: Node.js 20+ and the backend running.
 
 ```bash
-npm install
+pnpm install        # or npm install
 cp .env.example .env
-npm run dev
+pnpm run dev        # or npm run dev
 ```
 
-Set `VITE_API_BASE_URL` to the backend origin. The supplied NestJS backend does not configure a global `/api` prefix, so the default is `http://localhost:3000`.
+`.env`:
 
-## Data and API architecture
+```bash
+VITE_API_BASE_URL=http://localhost:3000
+```
 
-- `src/api/axiosInterceptor.js`: public and protected Axios instances, JWT request interceptor, unauthorized-session handling, and normalized backend error messages.
-- `src/hooks/useAxiosPublic.js`: public Axios hook, used by registration/login flows.
-- `src/hooks/useAxiosSecure.js`: protected Axios hook, used by TanStack Query hooks; attaches the current JWT through the shared interceptor.
-- `src/hooks/useEMSQueries.js`: TanStack Query read hooks for dashboards, employees, departments, attendance, payroll, payslips, and work policy.
-- `src/hooks/queryKeys.js`: centralized query keys.
-- `src/providers/QueryProvider.jsx`: QueryClient defaults, caching, retry policy, and refetch-on-focus/reconnect behavior.
-
-After successful writes, screens invalidate the affected query keys so cached data is refetched without a browser reload. Queries also refetch when the window regains focus after their cached data becomes stale.
-
-## API errors
-
-NestJS `message` values are surfaced to the form/page. For example, duplicate registration displays `An account with this email already exists.` for HTTP 409. Client-side code does not `console.log` request errors. The browser's Network panel can still show the HTTP 409 response because that is the actual server response.
-
-## Notes
-
-- Password reset is not implemented because the supplied backend has no reset endpoint.
-- Payslip printing uses the browser print dialog; no backend PDF endpoint exists.
-- No TypeScript files or TypeScript build step are used.
+Other scripts: `pnpm run build`, `pnpm run preview`.
